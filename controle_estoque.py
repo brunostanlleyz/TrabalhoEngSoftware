@@ -5,7 +5,7 @@ import sqlite3
 # Função para atualizar a quantidade no estoque
 def update_stock(codigo, quantidade, operacao):
     try:
-        conn = sqlite3.connect('components_store.db')
+        conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
 
         # Verificar se o componente existe
