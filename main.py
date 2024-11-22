@@ -2,9 +2,10 @@ import tkinter as tk
 from cadastro_componentes import cadastro_componentes
 from controle_estoque import controle_estoque
 from consulta_estoque import consulta_estoque
-from components_db import initialize_db
-from fornecedores_db import initialize_db
+from database import initialize_db
 from cadastro_fornecedores import cadastro_fornecedores
+from login import SistemaLogin
+from utils import criar_usuario
 
 # Classe principal do sistema
 class App(tk.Tk):
@@ -44,5 +45,13 @@ class App(tk.Tk):
         btn_fornecedores.pack(pady=5)
 
 if __name__ == "__main__":
-    app = App()
-    app.mainloop()
+    #app = App()
+    #app.mainloop()
+    initialize_db()
+
+    #Executar só uma vez para criar o usuário e testar o sistema de login
+    #criar_usuario('Administrador', 'admin', '1234', 'admin')
+
+    root = tk.Tk()
+    app = SistemaLogin(root)
+    root.mainloop()

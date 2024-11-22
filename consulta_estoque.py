@@ -6,7 +6,7 @@ from tkinter import messagebox
 # Função para consultar componentes no banco de dados
 def consultar_componentes(filtro, valor):
     try:
-        conn = sqlite3.connect('components_store.db')
+        conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
 
         if filtro == "Código":
