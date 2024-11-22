@@ -34,7 +34,7 @@ class SistemaLogin:
         conexao.close()
 
         if resultado:
-            nivel = resultado[4]  # Nível do usuário
+            self.nivel_acesso = resultado[4]  # Nível do usuário
             messagebox.showinfo("Login Bem-Sucedido", f"Bem-vindo, {usuario}!")
             self.abrir_dashboard()
         else:
@@ -46,5 +46,5 @@ class SistemaLogin:
 
         # Usando importlib para importar e rodar o App de forma dinâmica
         app_module = importlib.import_module("main")  # Importa dinamicamente o módulo main
-        app = app_module.App()  # Cria uma instância da classe App de main.py
+        app = app_module.App(nivel_acesso=self.nivel_acesso)  # Cria uma instância da classe App de main.py
         app.mainloop()  # Roda o loop principal da aplicação

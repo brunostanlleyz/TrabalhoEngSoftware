@@ -6,13 +6,15 @@ from database import initialize_db
 from cadastro_fornecedores import cadastro_fornecedores
 from login import SistemaLogin
 from utils import criar_usuario
+from cadastro_usuarios import cadastro_usuarios
 
 # Classe principal do sistema
 class App(tk.Tk):
-    def __init__(self):
+    def __init__(self, nivel_acesso):
         super().__init__()
+        self.nivel_acesso = nivel_acesso  # Armazena o nível do usuário logado
         self.title("Controle de Estoque - Loja de Eletrônicos")
-        self.geometry("900x600")
+        self.geometry("900x800")
         self.configure(bg="#f0f0f0")
 
         # Inicializar o banco de dados
@@ -28,21 +30,32 @@ class App(tk.Tk):
         self.create_menu_buttons()
 
     def create_menu_buttons(self):
-        btn_cadastro = tk.Button(self.menu_frame, text="Cadastro de Componentes", width=25, 
-                                 command=lambda: cadastro_componentes(self.content_frame))
-        btn_cadastro.pack(pady=5)
+        # Administrador
+        if self.nivel_acesso == 1:
+            btn_usuarios = tk.Button(self.menu_frame, text="Cadastro de Usuários", width=25,
+                                     command=lambda: cadastro_usuarios(self.content_frame))
+            btn_usuarios.pack(pady=5)
 
-        btn_estoque = tk.Button(self.menu_frame, text="Controle de Estoque", width=25, 
-                                command=lambda: controle_estoque(self.content_frame))
-        btn_estoque.pack(pady=5)
+        # Gerente
+        if self.nivel_acesso in [1, 3]:  # Gerente também pode acessar certas funções
+            btn_fornecedores = tk.Button(self.menu_frame, text="Cadastro de Fornecedores", width=25,
+                                         command=lambda: cadastro_fornecedores(self.content_frame))
+            btn_fornecedores.pack(pady=5)
 
-        btn_consulta = tk.Button(self.menu_frame, text="Consulta de Estoque", width=25,
-                                 command=lambda: consulta_estoque(self.content_frame))
-        btn_consulta.pack(pady=5)
+            btn_cadastro = tk.Button(self.menu_frame, text="Cadastro de Componentes", width=25,
+                                     command=lambda: cadastro_componentes(self.content_frame))
+            btn_cadastro.pack(pady=5)
 
-        btn_fornecedores = tk.Button(self.menu_frame, text="Cadastro de Fornecedores", width=25,
-                                     command=lambda: cadastro_fornecedores(self.content_frame))
-        btn_fornecedores.pack(pady=5)
+        # Funcionarios e acima
+        if self.nivel_acesso in [1, 2, 3]:
+
+            btn_estoque = tk.Button(self.menu_frame, text="Controle de Estoque", width=25,
+                                    command=lambda: controle_estoque(self.content_frame))
+            btn_estoque.pack(pady=5)
+
+            btn_consulta = tk.Button(self.menu_frame, text="Consulta de Estoque", width=25,
+                                     command=lambda: consulta_estoque(self.content_frame))
+            btn_consulta.pack(pady=5)
 
 if __name__ == "__main__":
     #app = App()
